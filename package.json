@@ -1,0 +1,32 @@
+{
+    "name": "js-functional-utils",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/jest": "^26.0.24",
+        "jest": "^27.0.6",
+        "prettier": "^2.3.2",
+        "ts-jest": "^27.0.4",
+        "tslint": "^6.1.3",
+        "typescript": "^4.3.5"
+    },
+    "scripts": {
+        "test": "jest",
+        "test:debug": "node --inspect=0.0.0.0:9228 ./node_modules/jest/bin/jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Sir-Kyle-Richardson/js-functional-utils.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Sir-Kyle-Richardson/js-functional-utils/issues"
+    },
+    "homepage": "https://github.com/Sir-Kyle-Richardson/js-functional-utils#readme"
+}
