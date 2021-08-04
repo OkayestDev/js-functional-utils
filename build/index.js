@@ -12,3 +12,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./src/recursive-object-walk"), exports);
 __exportStar(require("./src/types"), exports);
+__exportStar(require("./src/number"), exports);
+__exportStar(require("./src/curry"), exports);
+__exportStar(require("./src/string"), exports);
