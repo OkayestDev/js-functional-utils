@@ -15,3 +15,6 @@ __exportStar(require("./src/types"), exports);
 __exportStar(require("./src/number"), exports);
 __exportStar(require("./src/curry"), exports);
 __exportStar(require("./src/string"), exports);
+__exportStar(require("./src/if-it"), exports);
+__exportStar(require("./src/pipe"), exports);
+__exportStar(require("./src/array"), exports);

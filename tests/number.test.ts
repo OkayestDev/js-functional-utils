@@ -8,12 +8,4 @@ describe('number', () => {
             expect(result).toBe('1,000,000');
         });
     });
-
-    describe('computeAverage', () => {
-        test('computes average of array of numbers', () => {
-            const arr = [1, 2, 3];
-            const average = numberUtil.computeAverage(arr);
-            expect(average).toBe(2);
-        });
-    });
 });
