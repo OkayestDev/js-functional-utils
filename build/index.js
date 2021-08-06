@@ -18,3 +18,4 @@ __exportStar(require("./src/string"), exports);
 __exportStar(require("./src/if-it"), exports);
 __exportStar(require("./src/pipe"), exports);
 __exportStar(require("./src/array"), exports);
+__exportStar(require("./src/promised-timeout"), exports);

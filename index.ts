@@ -6,3 +6,4 @@ export * from './src/string';
 export * from './src/if-it';
 export * from './src/pipe';
 export * from './src/array';
+export * from './src/promised-timeout';
