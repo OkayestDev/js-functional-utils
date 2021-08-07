@@ -9,6 +9,14 @@ describe('string', () => {
         });
     });
 
+    describe('convertToTitleCase', () => {
+        test('converts camelCase to Title Case', () => {
+            const string = 'titleCase';
+            const result = stringUtil.convertToTitleCase(string);
+            expect(result).toBe('Title Case');
+        });
+    });
+
     describe('isValidEmail', () => {
         test('returns true on valid email', () => {
             const email = 'kyle@gmail.com';
