@@ -29,3 +29,29 @@ export const getMaxMinOfObjectArray = (
         min,
     };
 };
+
+export const isMaxOfObjectArray = (array: any[], index: number, highKey: string): boolean => {
+    const { [highKey]: max } = array[index];
+
+    for (let i = 0; i < array.length; i++) {
+        const { [highKey]: currentValue } = array[i];
+        if (i !== index && currentValue > max) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+export const isMinOfObjectArray = (array: any[], index: number, lowKey: string): boolean => {
+    const { [lowKey]: min } = array[index];
+
+    for (let i = 0; i < array.length; i++) {
+        const { [lowKey]: currentValue } = array[i];
+        if (i !== index && currentValue < min) {
+            return false;
+        }
+    }
+
+    return true;
+};
