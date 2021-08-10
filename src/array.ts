@@ -1,5 +1,8 @@
 export const peek = <T>(array: T[]): T => array[array.length - 1];
 
+export const fromEnd = <T>(array: T[], fromEndOffset: number): T =>
+    array[array.length - fromEndOffset];
+
 interface MinMaxInterface {
     min: number;
     max: number;

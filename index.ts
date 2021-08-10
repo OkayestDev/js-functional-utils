@@ -7,3 +7,5 @@ export * from './src/if-it';
 export * from './src/pipe';
 export * from './src/array';
 export * from './src/promised-timeout';
+export * from './src/object';
+export * from './src/boolean';
