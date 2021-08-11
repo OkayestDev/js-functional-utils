@@ -19,3 +19,5 @@ __exportStar(require("./src/if-it"), exports);
 __exportStar(require("./src/pipe"), exports);
 __exportStar(require("./src/array"), exports);
 __exportStar(require("./src/promised-timeout"), exports);
+__exportStar(require("./src/object"), exports);
+__exportStar(require("./src/boolean"), exports);

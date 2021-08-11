@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isMinOfObjectArray = exports.isMaxOfObjectArray = exports.getMaxMinOfObjectArray = exports.peek = void 0;
+exports.isMinOfObjectArray = exports.isMaxOfObjectArray = exports.getMaxMinOfObjectArray = exports.fromEnd = exports.peek = void 0;
 var peek = function (array) { return array[array.length - 1]; };
 exports.peek = peek;
+var fromEnd = function (array, fromEndOffset) {
+    return array[array.length - fromEndOffset];
+};
+exports.fromEnd = fromEnd;
 var getMaxMinOfObjectArray = function (array, lowKey, highKey) {
     var min = Infinity;
     var max = -1;

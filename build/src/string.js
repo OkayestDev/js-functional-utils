@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidEmail = exports.convertToTitleCase = exports.convertToSentenceCase = void 0;
+exports.parseFunctionsObjectParams = exports.isValidEmail = exports.convertToTitleCase = exports.convertToSentenceCase = void 0;
+var array_1 = require("./array");
 var convertToSentenceCase = function (camelCase) {
     return camelCase
         .replace(/([A-Z])/g, ' $1')
@@ -22,3 +23,14 @@ var isValidEmail = function (email) {
     return re.test(String(email).toLowerCase());
 };
 exports.isValidEmail = isValidEmail;
+var parseFunctionsObjectParams = function (fn) {
+    var str = fn.toString();
+    var parts = str.split(',');
+    var baseObj = {};
+    parts.forEach(function (value) {
+        var varName = array_1.peek(value.split(';')[0].replace(';', '').split('.')).trim();
+        baseObj[varName] = undefined;
+    });
+    return baseObj;
+};
+exports.parseFunctionsObjectParams = parseFunctionsObjectParams;
