@@ -1,3 +1,5 @@
+import { parseFunctionsObjectParams } from './string';
+
 export const isPopulatedObject = (obj: object): boolean => Object.keys(obj).length > 0;
 
 export const areValuesAllNot = (object: object, valuesAreNot: any[] = [undefined]): boolean => {
@@ -10,3 +12,12 @@ export const areValuesAllNot = (object: object, valuesAreNot: any[] = [undefined
     }
     return true;
 };
+
+export const stringArrayToObject = (strings: string[], placeholderValue = undefined): object =>
+    strings.reduce(
+        (acc, varName) => ({
+            ...acc,
+            [varName]: placeholderValue,
+        }),
+        {}
+    );
