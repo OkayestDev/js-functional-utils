@@ -35,7 +35,6 @@ var curry = function (fn) {
     };
 };
 exports.curry = curry;
-// @todo
 var curryObj = function (fn) { return function (args) {
     var baseObj = string_1.parseFunctionsObjectParams(fn);
     return object_1.areValuesAllNot(__assign(__assign({}, baseObj), args))

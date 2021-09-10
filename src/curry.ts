@@ -6,7 +6,6 @@ export const curry =
     (...args: any[]): Function | any =>
         args.length >= fn.length ? fn(...args) : (...more: any[]) => curry(fn)(...args, ...more);
 
-// @todo
 export const curryObj = (fn: Function) => (args: object) => {
     const baseObj = parseFunctionsObjectParams(fn);
     return areValuesAllNot({ ...baseObj, ...args })
