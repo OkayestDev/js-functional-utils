@@ -21,3 +21,5 @@ __exportStar(require("./src/array"), exports);
 __exportStar(require("./src/promised-timeout"), exports);
 __exportStar(require("./src/object"), exports);
 __exportStar(require("./src/boolean"), exports);
+__exportStar(require("./src/lambda-it"), exports);
+__exportStar(require("./src/return-it"), exports);

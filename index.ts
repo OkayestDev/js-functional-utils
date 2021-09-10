@@ -9,3 +9,5 @@ export * from './src/array';
 export * from './src/promised-timeout';
 export * from './src/object';
 export * from './src/boolean';
+export * from './src/lambda-it';
+export * from './src/return-it';
