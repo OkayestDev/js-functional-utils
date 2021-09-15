@@ -1,4 +1,5 @@
 import { peek } from './array';
+import { equalAny } from './boolean';
 
 export const convertToSentenceCase = (camelCase: string): string => {
     return camelCase
@@ -32,3 +33,5 @@ export const parseFunctionsObjectParams = (fn: Function): object => {
     });
     return baseObj;
 };
+
+export const isEmptyString = (str: string) => equalAny(str, [undefined, null, '']);

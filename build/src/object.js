@@ -11,7 +11,8 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stringArrayToObject = exports.areValuesAllNot = exports.isPopulatedObject = void 0;
+exports.isEmptyObject = exports.stringArrayToObject = exports.areValuesAllNot = exports.isPopulatedObject = void 0;
+var boolean_1 = require("./boolean");
 var isPopulatedObject = function (obj) { return Object.keys(obj).length > 0; };
 exports.isPopulatedObject = isPopulatedObject;
 var areValuesAllNot = function (object, valuesAreNot) {
@@ -34,3 +35,7 @@ var stringArrayToObject = function (strings, placeholderValue) {
     }, {});
 };
 exports.stringArrayToObject = stringArrayToObject;
+var isEmptyObject = function (obj) {
+    return boolean_1.equalAny(obj, [undefined, null]) || !exports.isPopulatedObject(obj);
+};
+exports.isEmptyObject = isEmptyObject;

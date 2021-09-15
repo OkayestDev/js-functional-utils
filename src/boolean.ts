@@ -36,3 +36,6 @@ export const andChain =
         }
         return result;
     };
+
+export const equalAny = (value: any, checks: any[]): boolean =>
+    checks.reduce((acc, checked) => acc || value === checked, false);

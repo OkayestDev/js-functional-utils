@@ -1,3 +1,5 @@
+import { equalAny } from './boolean';
+
 export const isPopulatedObject = (obj: object): boolean => Object.keys(obj).length > 0;
 
 export const areValuesAllNot = (object: object, valuesAreNot: any[] = [undefined]): boolean => {
@@ -19,3 +21,6 @@ export const stringArrayToObject = (strings: string[], placeholderValue = undefi
         }),
         {}
     );
+
+export const isEmptyObject = (obj: object): boolean =>
+    equalAny(obj, [undefined, null]) || !isPopulatedObject(obj);

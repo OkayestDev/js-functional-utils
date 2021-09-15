@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isMinOfObjectArray = exports.isMaxOfObjectArray = exports.getMaxMinOfObjectArray = exports.fromEnd = exports.peek = void 0;
+exports.isEmptyArray = exports.isMinOfObjectArray = exports.isMaxOfObjectArray = exports.getMaxMinOfObjectArray = exports.fromEnd = exports.peek = void 0;
+var boolean_1 = require("./boolean");
 var peek = function (array) { return array[array.length - 1]; };
 exports.peek = peek;
 var fromEnd = function (array, fromEndOffset) {
@@ -47,3 +48,7 @@ var isMinOfObjectArray = function (array, index, lowKey) {
     return true;
 };
 exports.isMinOfObjectArray = isMinOfObjectArray;
+var isEmptyArray = function (array) {
+    return boolean_1.equalAny(array, [undefined, null]) || array.length === 0;
+};
+exports.isEmptyArray = isEmptyArray;

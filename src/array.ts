@@ -1,3 +1,5 @@
+import { equalAny } from './boolean';
+
 export const peek = <T>(array: T[]): T => array[array.length - 1];
 
 export const fromEnd = <T>(array: T[], fromEndOffset: number): T =>
@@ -58,3 +60,6 @@ export const isMinOfObjectArray = (array: any[], index: number, lowKey: string):
 
     return true;
 };
+
+export const isEmptyArray = (array: any[]): boolean =>
+    equalAny(array, [undefined, null]) || array.length === 0;

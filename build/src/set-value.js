@@ -11,9 +11,9 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var file_1 = require("./src/file");
-var exportAllCallback = function (file) {
-    var exports = require(file);
-    module.exports = __assign(__assign({}, module.exports), exports);
-};
-file_1.recursiveDirectoryWalk(__dirname + "/src", exportAllCallback);
+exports.setValue = void 0;
+var curry_1 = require("./curry");
+exports.setValue = curry_1.curry(function (obj, key, value) {
+    var _a;
+    return __assign(__assign({}, obj), (_a = {}, _a[key] = value, _a));
+});

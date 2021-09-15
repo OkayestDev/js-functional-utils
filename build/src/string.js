@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseFunctionsObjectParams = exports.isValidEmail = exports.convertToTitleCase = exports.convertToSentenceCase = void 0;
+exports.isEmptyString = exports.parseFunctionsObjectParams = exports.isValidEmail = exports.convertToTitleCase = exports.convertToSentenceCase = void 0;
 var array_1 = require("./array");
+var boolean_1 = require("./boolean");
 var convertToSentenceCase = function (camelCase) {
     return camelCase
         .replace(/([A-Z])/g, ' $1')
@@ -34,3 +35,5 @@ var parseFunctionsObjectParams = function (fn) {
     return baseObj;
 };
 exports.parseFunctionsObjectParams = parseFunctionsObjectParams;
+var isEmptyString = function (str) { return boolean_1.equalAny(str, [undefined, null, '']); };
+exports.isEmptyString = isEmptyString;
