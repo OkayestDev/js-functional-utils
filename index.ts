@@ -15,3 +15,4 @@ export * from './src/return-it';
 export * from './src/set-value';
 export * from './src/string';
 export * from './src/types';
+export * from './src/grab';

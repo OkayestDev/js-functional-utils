@@ -27,3 +27,4 @@ __exportStar(require("./src/return-it"), exports);
 __exportStar(require("./src/set-value"), exports);
 __exportStar(require("./src/string"), exports);
 __exportStar(require("./src/types"), exports);
+__exportStar(require("./src/grab"), exports);
