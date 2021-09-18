@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.computeAverage = void 0;
+exports.getPercentageChange = exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.computeAverage = void 0;
 var computeAverage = function (values) {
     var hits = 0;
     var sum = 0;
@@ -28,3 +28,7 @@ var isNumberBetween = function (between1, between2, check) {
     return min <= check && check <= max;
 };
 exports.isNumberBetween = isNumberBetween;
+var getPercentageChange = function (numerator, denominator) {
+    return ((numerator - denominator) / denominator) * 100;
+};
+exports.getPercentageChange = getPercentageChange;

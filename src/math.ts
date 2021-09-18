@@ -28,3 +28,7 @@ export const isNumberBetween = (between1: number, between2: number, check: numbe
     const max = Math.max(between1, between2);
     return min <= check && check <= max;
 };
+
+export const getPercentageChange = (numerator: number, denominator: number): number => {
+    return ((numerator - denominator) / denominator) * 100;
+};

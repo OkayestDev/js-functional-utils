@@ -8,4 +8,11 @@ describe('math', () => {
             expect(average).toBe(2);
         });
     });
+
+    describe('getPercentageChange', () => {
+        test('returns percentage increase', () => {
+            const percentageChange = mathUtil.getPercentageChange(11, 10);
+            expect(percentageChange).toBe(10);
+        });
+    });
 });
