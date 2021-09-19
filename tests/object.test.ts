@@ -30,4 +30,34 @@ describe('object', () => {
             expect(result).toBe(true);
         });
     });
+
+    describe('addToArrayValue', () => {
+        test('instantiates empty array if undefined', () => {
+            const obj = {};
+            const result = objectUtil.addToArrayValue(obj, 'test', { add: 'me' });
+            expect(result).toStrictEqual({ test: [{ add: 'me' }] });
+            expect(obj).toStrictEqual({});
+        });
+
+        test('typings', () => {
+            interface ValueInterface {
+                symbol: string;
+                someValue: number;
+            }
+            interface TestInterface {
+                [key: string]: ValueInterface[];
+            }
+
+            const obj: TestInterface = {};
+            const value = {
+                symbol: 'test',
+                someValue: 1,
+            };
+
+            const result = objectUtil.addToArrayValue(obj, 'someKey', value);
+            expect(result).toStrictEqual({
+                someKey: [value],
+            });
+        });
+    });
 });

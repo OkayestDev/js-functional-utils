@@ -22,5 +22,20 @@ export const stringArrayToObject = (strings: string[], placeholderValue = undefi
         {}
     );
 
+interface ArrayObjectInterface<X> {
+    [key: string]: X[];
+}
+export const addToArrayValue = <X, T extends ArrayObjectInterface<X>>(
+    object: T,
+    key: string | number,
+    value: X
+): T => {
+    const spread = key in object ? object[key] : [];
+    return {
+        ...object,
+        [key]: [...spread, value],
+    };
+};
+
 export const isEmptyObject = (obj: object): boolean =>
     equalAny(obj, [undefined, null]) || !isPopulatedObject(obj);

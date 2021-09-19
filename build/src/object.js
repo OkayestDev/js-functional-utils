@@ -10,8 +10,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyObject = exports.stringArrayToObject = exports.areValuesAllNot = exports.isPopulatedObject = void 0;
+exports.isEmptyObject = exports.addToArrayValue = exports.stringArrayToObject = exports.areValuesAllNot = exports.isPopulatedObject = void 0;
 var boolean_1 = require("./boolean");
 var isPopulatedObject = function (obj) { return Object.keys(obj).length > 0; };
 exports.isPopulatedObject = isPopulatedObject;
@@ -35,6 +40,12 @@ var stringArrayToObject = function (strings, placeholderValue) {
     }, {});
 };
 exports.stringArrayToObject = stringArrayToObject;
+var addToArrayValue = function (object, key, value) {
+    var _a;
+    var spread = key in object ? object[key] : [];
+    return __assign(__assign({}, object), (_a = {}, _a[key] = __spreadArray(__spreadArray([], spread), [value]), _a));
+};
+exports.addToArrayValue = addToArrayValue;
 var isEmptyObject = function (obj) {
     return boolean_1.equalAny(obj, [undefined, null]) || !exports.isPopulatedObject(obj);
 };
