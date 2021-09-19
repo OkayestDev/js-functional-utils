@@ -15,4 +15,14 @@ describe('math', () => {
             expect(percentageChange).toBe(10);
         });
     });
+
+    test('getMax', () => {
+        const max = mathUtil.getMax(1, 10, 12);
+        expect(max).toBe(12);
+    });
+
+    test('getMin', () => {
+        const min = mathUtil.getMin(1, -19, -12);
+        expect(min).toBe(-19);
+    });
 });

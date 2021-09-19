@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPercentageChange = exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.computeAverage = void 0;
+exports.getMin = exports.getMax = exports.greaterThan = exports.lessThan = exports.getPercentageChange = exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.computeAverage = void 0;
 var computeAverage = function (values) {
     var hits = 0;
     var sum = 0;
@@ -32,3 +32,31 @@ var getPercentageChange = function (numerator, denominator) {
     return ((numerator - denominator) / denominator) * 100;
 };
 exports.getPercentageChange = getPercentageChange;
+var lessThan = function (value, compareTo) { return value < compareTo; };
+exports.lessThan = lessThan;
+var greaterThan = function (value, compareTo) { return value > compareTo; };
+exports.greaterThan = greaterThan;
+var getMax = function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var max = -Infinity;
+    args.forEach(function (arg) {
+        max = exports.greaterThan(arg, max) ? arg : max;
+    });
+    return max;
+};
+exports.getMax = getMax;
+var getMin = function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var min = Infinity;
+    args.forEach(function (arg) {
+        min = exports.lessThan(arg, min) ? arg : min;
+    });
+    return min;
+};
+exports.getMin = getMin;

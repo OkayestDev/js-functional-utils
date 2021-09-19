@@ -1,14 +1,9 @@
 type EvaluatorType = Function | any;
 
-export const lessThan = (value: number, compareTo: number): boolean => value < compareTo;
-
-export const greaterThan = (value: number, compareTo: number): boolean => value > compareTo;
-
 const getEvaluated = (evaluator: EvaluatorType, value) => {
     if (typeof evaluator === 'function') {
         return evaluator(value);
     }
-
     return evaluator;
 };
 

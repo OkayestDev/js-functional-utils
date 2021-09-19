@@ -1,10 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.equalAny = exports.andChain = exports.orChain = exports.greaterThan = exports.lessThan = void 0;
-var lessThan = function (value, compareTo) { return value < compareTo; };
-exports.lessThan = lessThan;
-var greaterThan = function (value, compareTo) { return value > compareTo; };
-exports.greaterThan = greaterThan;
+exports.equalAny = exports.andChain = exports.orChain = void 0;
 var getEvaluated = function (evaluator, value) {
     if (typeof evaluator === 'function') {
         return evaluator(value);

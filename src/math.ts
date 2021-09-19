@@ -1,3 +1,5 @@
+import { ifIt } from './if-it';
+
 export const computeAverage = (values: number[]): number => {
     let hits = 0;
     let sum = 0;
@@ -31,4 +33,28 @@ export const isNumberBetween = (between1: number, between2: number, check: numbe
 
 export const getPercentageChange = (numerator: number, denominator: number): number => {
     return ((numerator - denominator) / denominator) * 100;
+};
+
+export const lessThan = (value: number, compareTo: number): boolean => value < compareTo;
+
+export const greaterThan = (value: number, compareTo: number): boolean => value > compareTo;
+
+export const getMax = (...args: number[]): number => {
+    let max = -Infinity;
+
+    args.forEach((arg) => {
+        max = greaterThan(arg, max) ? arg : max;
+    });
+
+    return max;
+};
+
+export const getMin = (...args: number[]): number => {
+    let min = Infinity;
+
+    args.forEach((arg) => {
+        min = lessThan(arg, min) ? arg : min;
+    });
+
+    return min;
 };
