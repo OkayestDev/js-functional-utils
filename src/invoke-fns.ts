@@ -1,4 +1,4 @@
 export const invokeFns =
-    <T>(...fns: ((...params: any[]) => T)[]) =>
-    (...params: any[]): T[] =>
+    (...fns: ((...params: any[]) => any)[]) =>
+    (...params: any[]): any[] =>
         fns.map((fn) => fn(...params));
