@@ -28,3 +28,4 @@ __exportStar(require("./src/set-value"), exports);
 __exportStar(require("./src/string"), exports);
 __exportStar(require("./src/types"), exports);
 __exportStar(require("./src/grab"), exports);
+__exportStar(require("./src/invoke-fns"), exports);

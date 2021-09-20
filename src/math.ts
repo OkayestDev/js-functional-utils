@@ -1,5 +1,3 @@
-import { ifIt } from './if-it';
-
 export const computeAverage = (values: number[]): number => {
     let hits = 0;
     let sum = 0;
