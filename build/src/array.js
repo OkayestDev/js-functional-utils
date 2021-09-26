@@ -10,7 +10,7 @@ var fromEnd = function (array, fromEndOffset) {
 exports.fromEnd = fromEnd;
 var getMaxMinOfObjectArray = function (array, lowKey, highKey) {
     var min = Infinity;
-    var max = -1;
+    var max = -Infinity;
     array.forEach(function (value) {
         var _a = value, _b = lowKey, low = _a[_b], _c = highKey, high = _a[_c];
         if (low < min) {

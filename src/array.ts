@@ -15,7 +15,7 @@ export const getMaxMinOfObjectArray = (
     highKey: string
 ): MinMaxInterface => {
     let min = Infinity;
-    let max = -1;
+    let max = -Infinity;
 
     array.forEach((value) => {
         const { [lowKey]: low, [highKey]: high } = value;

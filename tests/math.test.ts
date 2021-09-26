@@ -25,4 +25,12 @@ describe('math', () => {
         const min = mathUtil.getMin(1, -19, -12);
         expect(min).toBe(-19);
     });
+
+    test('updateAverage', () => {
+        const average = 6;
+        const count = 4;
+        const newValue = 2;
+        const updatedAverage = mathUtil.updateAverage(average, newValue, count);
+        expect(updatedAverage).toBe(5);
+    });
 });

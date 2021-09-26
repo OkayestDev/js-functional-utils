@@ -16,6 +16,9 @@ export const computeAverage = (values: number[]): number => {
     return sum / hits;
 };
 
+export const updateAverage = (average: number, newValue: number, newCount: number): number =>
+    (average * (newCount - 1) + newValue) / newCount;
+
 const DEFAULT_PERCENTAGE_CHECK = 0.01;
 export const areNumbersWithinPercentage = (
     numberOne: number,

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMin = exports.getMax = exports.greaterThan = exports.lessThan = exports.getPercentageChange = exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.computeAverage = void 0;
+exports.getMin = exports.getMax = exports.greaterThan = exports.lessThan = exports.getPercentageChange = exports.isNumberBetween = exports.areNumbersWithinPercentage = exports.updateAverage = exports.computeAverage = void 0;
 var computeAverage = function (values) {
     var hits = 0;
     var sum = 0;
@@ -16,6 +16,10 @@ var computeAverage = function (values) {
     return sum / hits;
 };
 exports.computeAverage = computeAverage;
+var updateAverage = function (average, newValue, newCount) {
+    return (average * (newCount - 1) + newValue) / newCount;
+};
+exports.updateAverage = updateAverage;
 var DEFAULT_PERCENTAGE_CHECK = 0.01;
 var areNumbersWithinPercentage = function (numberOne, numberTwo, percentage) {
     if (percentage === void 0) { percentage = DEFAULT_PERCENTAGE_CHECK; }
