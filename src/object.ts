@@ -37,5 +37,18 @@ export const addToArrayValue = <X, T extends ArrayObjectInterface<X>>(
     };
 };
 
+export const conditionallyInstantiate =
+    (initialValue: any) =>
+    (key: string | number, object: object): object => {
+        if (object[key]) {
+            return object;
+        }
+
+        return {
+            ...object,
+            [key]: initialValue,
+        };
+    };
+
 export const isEmptyObject = (obj: object): boolean =>
     equalAny(obj, [undefined, null]) || !isPopulatedObject(obj);

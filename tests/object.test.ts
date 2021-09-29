@@ -60,4 +60,20 @@ describe('object', () => {
             });
         });
     });
+
+    describe('conditionallyInstantiate', () => {
+        test('instantiate value if undefined', () => {
+            const obj = {};
+            const initial = {
+                test: 'value',
+            };
+            const result = objectUtil.conditionallyInstantiate(initial)('key', obj);
+            expect(obj).toStrictEqual({});
+            expect(result).toStrictEqual({
+                key: {
+                    test: 'value',
+                },
+            });
+        });
+    });
 });
