@@ -1,4 +1,5 @@
 export * from './src/array';
+export * from './src/async-exec';
 export * from './src/boolean';
 export * from './src/curry';
 export * from './src/file';

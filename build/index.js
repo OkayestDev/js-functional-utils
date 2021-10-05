@@ -11,6 +11,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./src/array"), exports);
+__exportStar(require("./src/async-exec"), exports);
 __exportStar(require("./src/boolean"), exports);
 __exportStar(require("./src/curry"), exports);
 __exportStar(require("./src/file"), exports);
