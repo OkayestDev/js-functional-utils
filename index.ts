@@ -10,6 +10,7 @@ export * from './src/math';
 export * from './src/number';
 export * from './src/object';
 export * from './src/pipe';
+export * from './src/promise-pipe';
 export * from './src/promised-timeout';
 export * from './src/recursive-object-walk';
 export * from './src/return-it';
