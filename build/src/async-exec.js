@@ -38,19 +38,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.asyncExec = void 0;
 var child_process_1 = require("child_process");
-var asyncExec = function (command, isReplaceNewlines) {
+var uuid_1 = require("uuid");
+var log = function (isLog) {
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return isLog && console.log.apply(console, args);
+    };
+};
+var asyncExec = function (command, isReplaceNewlines, isLog) {
     if (isReplaceNewlines === void 0) { isReplaceNewlines = true; }
+    if (isLog === void 0) { isLog = true; }
     return __awaiter(void 0, void 0, void 0, function () {
+        var logger, commandId;
         return __generator(this, function (_a) {
+            logger = log(isLog);
+            commandId = uuid_1.v4();
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     child_process_1.exec(command, function (error, stdout) {
                         if (!error) {
                             var response = isReplaceNewlines
                                 ? stdout.replace(/\r/g, '').replace(/\n/g, '')
                                 : stdout;
+                            logger(commandId, 'async-exec response', stdout);
                             resolve(response);
                         }
                         else {
+                            logger(commandId, error);
                             reject(error);
                         }
                     });
