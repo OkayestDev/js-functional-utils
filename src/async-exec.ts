@@ -13,7 +13,7 @@ export const asyncExec = async (
 ): Promise<string | ExecException> => {
     const logger = log(isLog);
     const commandId = v4();
-    logger(commandId, 'async-exec', command);
+    logger(commandId, 'async-exec request', command);
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout) => {
             if (!error) {
@@ -23,7 +23,7 @@ export const asyncExec = async (
                 logger(commandId, 'async-exec response', stdout);
                 resolve(response);
             } else {
-                logger(commandId, error);
+                logger(commandId, 'async-exec error', error);
                 reject(error);
             }
         });

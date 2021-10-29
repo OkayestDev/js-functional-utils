@@ -56,7 +56,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
         return __generator(this, function (_a) {
             logger = log(isLog);
             commandId = uuid_1.v4();
-            logger(commandId, 'async-exec', command);
+            logger(commandId, 'async-exec request', command);
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     child_process_1.exec(command, function (error, stdout) {
                         if (!error) {
@@ -67,7 +67,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
                             resolve(response);
                         }
                         else {
-                            logger(commandId, error);
+                            logger(commandId, 'async-exec error', error);
                             reject(error);
                         }
                     });
