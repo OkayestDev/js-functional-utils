@@ -19,3 +19,4 @@ export * from './src/string';
 export * from './src/types';
 export * from './src/grab';
 export * from './src/invoke-fns';
+export * from './src/function-proxy';

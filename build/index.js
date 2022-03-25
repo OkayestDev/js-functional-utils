@@ -31,3 +31,4 @@ __exportStar(require("./src/string"), exports);
 __exportStar(require("./src/types"), exports);
 __exportStar(require("./src/grab"), exports);
 __exportStar(require("./src/invoke-fns"), exports);
+__exportStar(require("./src/function-proxy"), exports);

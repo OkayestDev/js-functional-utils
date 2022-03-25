@@ -2,8 +2,8 @@ import { areValuesAllNot } from './object';
 import { parseFunctionsObjectParams } from './string';
 
 export const curry =
-    (fn: Function) =>
-    (...args: any[]): Function | any =>
+    <T>(fn: (...args: any) => T) =>
+    (...args: any[]): Function | T =>
         args.length >= fn.length ? fn(...args) : (...more: any[]) => curry(fn)(...args, ...more);
 
 export const curryObj = (fn: Function) => (args: object) => {
