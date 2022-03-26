@@ -12,7 +12,7 @@ var recursiveDirectoryWalk = function (directory, callback) {
         var dir = path_1.default.join(directory, file);
         var stat = fs_1.default.lstatSync(dir);
         if (stat.isDirectory()) {
-            return exports.recursiveDirectoryWalk(dir, callback);
+            return (0, exports.recursiveDirectoryWalk)(dir, callback);
         }
         callback(dir);
     });

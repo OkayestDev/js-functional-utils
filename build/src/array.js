@@ -49,6 +49,6 @@ var isMinOfObjectArray = function (array, index, lowKey) {
 };
 exports.isMinOfObjectArray = isMinOfObjectArray;
 var isEmptyArray = function (array) {
-    return boolean_1.equalAny(array, [undefined, null]) || array.length === 0;
+    return (0, boolean_1.equalAny)(array, [undefined, null]) || array.length === 0;
 };
 exports.isEmptyArray = isEmptyArray;

@@ -10,10 +10,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.functionProxy = exports.setGlobalConfig = exports.RESPONSE = exports.PARAMS = void 0;
@@ -40,7 +44,7 @@ var handleLog = function (config) { return function (prefix, logItem) {
 }; };
 var applyConfigModifications = function (fn, config) {
     if (config === null || config === void 0 ? void 0 : config.isCurry) {
-        return curry_1.curry(fn);
+        return (0, curry_1.curry)(fn);
     }
     return fn;
 };
@@ -51,12 +55,12 @@ var funcProxyHandler = function (config, additionalLogParams) {
             var logger = handleLog(config);
             var handler = function (response) {
                 if (typeof response === 'function') {
-                    return handleFunctionProxy(response, config, __spreadArray(__spreadArray([], additionalLogParams), args));
+                    return handleFunctionProxy(response, config, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
                 }
                 if (response instanceof Promise) {
                     return Promise.resolve(response).then(handler);
                 }
-                logger(exports.PARAMS, __spreadArray(__spreadArray([], additionalLogParams), args));
+                logger(exports.PARAMS, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
                 logger(exports.RESPONSE, response);
                 return response;
             };

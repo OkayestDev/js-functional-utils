@@ -6,5 +6,5 @@ var isObject = function (obj) {
     return typeof obj === 'object' && obj !== null && !isArray(obj);
 };
 exports.isObject = isObject;
-var isIterable = function (obj) { return isArray(obj) || exports.isObject(obj); };
+var isIterable = function (obj) { return isArray(obj) || (0, exports.isObject)(obj); };
 exports.isIterable = isIterable;

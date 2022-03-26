@@ -58,7 +58,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
             commandId = GetCommandId();
             logger(commandId, 'async-exec request', command);
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    child_process_1.exec(command, function (error, stdout) {
+                    (0, child_process_1.exec)(command, function (error, stdout) {
                         if (!error) {
                             var response = isReplaceNewlines
                                 ? stdout.replace(/\r/g, '').replace(/\n/g, '')

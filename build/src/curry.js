@@ -10,10 +10,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.curryObj = exports.curry = void 0;
@@ -33,15 +37,15 @@ var curry = function (fn) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 more[_i] = arguments[_i];
             }
-            return exports.curry(fn).apply(void 0, __spreadArray(__spreadArray([], args), more));
+            return (0, exports.curry)(fn).apply(void 0, __spreadArray(__spreadArray([], args, false), more, false));
         };
     };
 };
 exports.curry = curry;
 var curryObj = function (fn) { return function (args) {
-    var baseObj = string_1.parseFunctionsObjectParams(fn);
-    return object_1.areValuesAllNot(__assign(__assign({}, baseObj), args))
+    var baseObj = (0, string_1.parseFunctionsObjectParams)(fn);
+    return (0, object_1.areValuesAllNot)(__assign(__assign({}, baseObj), args))
         ? fn(args)
-        : function (more) { return exports.curryObj(fn)(__assign(__assign({}, args), more)); };
+        : function (more) { return (0, exports.curryObj)(fn)(__assign(__assign({}, args), more)); };
 }; };
 exports.curryObj = curryObj;

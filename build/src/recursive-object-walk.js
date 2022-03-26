@@ -16,8 +16,8 @@ var types_1 = require("./types");
 var getInitValue = function (obj) { return (Array.isArray(obj) ? [] : {}); };
 var recursiveObjectWalk = function (onCheck, onFind, obj) {
     var getValue = function (value) {
-        if (types_1.isIterable(value)) {
-            return exports.recursiveObjectWalk(onCheck, onFind, value);
+        if ((0, types_1.isIterable)(value)) {
+            return (0, exports.recursiveObjectWalk)(onCheck, onFind, value);
         }
         return value;
     };

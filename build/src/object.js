@@ -10,10 +10,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isEmptyObject = exports.conditionallyInstantiate = exports.addToArrayValue = exports.stringArrayToObject = exports.areValuesAllNot = exports.isPopulatedObject = void 0;
@@ -43,7 +47,7 @@ exports.stringArrayToObject = stringArrayToObject;
 var addToArrayValue = function (object, key, value) {
     var _a;
     var spread = key in object ? object[key] : [];
-    return __assign(__assign({}, object), (_a = {}, _a[key] = __spreadArray(__spreadArray([], spread), [value]), _a));
+    return __assign(__assign({}, object), (_a = {}, _a[key] = __spreadArray(__spreadArray([], spread, true), [value], false), _a));
 };
 exports.addToArrayValue = addToArrayValue;
 var conditionallyInstantiate = function (initialValue) {
@@ -57,6 +61,6 @@ var conditionallyInstantiate = function (initialValue) {
 };
 exports.conditionallyInstantiate = conditionallyInstantiate;
 var isEmptyObject = function (obj) {
-    return boolean_1.equalAny(obj, [undefined, null]) || !exports.isPopulatedObject(obj);
+    return (0, boolean_1.equalAny)(obj, [undefined, null]) || !(0, exports.isPopulatedObject)(obj);
 };
 exports.isEmptyObject = isEmptyObject;

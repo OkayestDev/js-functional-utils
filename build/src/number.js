@@ -11,6 +11,6 @@ var numberWithCommas = function (number, isAllowEmpty) {
     if (parts.length === 1) {
         return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "." + parts[1].substring(0, 2);
+    return "".concat(parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','), ".").concat(parts[1].substring(0, 2));
 };
 exports.numberWithCommas = numberWithCommas;

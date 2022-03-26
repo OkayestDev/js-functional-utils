@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setValue = void 0;
 var curry_1 = require("./curry");
-exports.setValue = curry_1.curry(function (obj, key, value) {
+exports.setValue = (0, curry_1.curry)(function (obj, key, value) {
     var _a;
     return __assign(__assign({}, obj), (_a = {}, _a[key] = value, _a));
 });

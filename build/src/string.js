@@ -29,11 +29,11 @@ var parseFunctionsObjectParams = function (fn) {
     var parts = str.split(',');
     var baseObj = {};
     parts.forEach(function (value) {
-        var varName = array_1.peek(value.split(';')[0].replace(';', '').split('.')).trim();
+        var varName = (0, array_1.peek)(value.split(';')[0].replace(';', '').split('.')).trim();
         baseObj[varName] = undefined;
     });
     return baseObj;
 };
 exports.parseFunctionsObjectParams = parseFunctionsObjectParams;
-var isEmptyString = function (str) { return boolean_1.equalAny(str, [undefined, null, '']); };
+var isEmptyString = function (str) { return (0, boolean_1.equalAny)(str, [undefined, null, '']); };
 exports.isEmptyString = isEmptyString;
