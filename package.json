@@ -1,6 +1,6 @@
 {
     "name": "js-functional-utils",
-    "version": "1.0.4",
+    "version": "1.0.6",
     "description": "",
     "main": "./build/index.js",
     "directories": {
@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@types/jest": "^26.0.24",
+        "husky": "^7.0.4",
         "jest": "^27.0.6",
         "prettier": "^2.3.2",
         "ts-jest": "^27.0.4",
@@ -19,7 +20,9 @@
     },
     "scripts": {
         "test": "node --inspect=0.0.0.0:9228 ./node_modules/jest/bin/jest",
-        "build": "tsc --outDir ./build"
+        "build": "tsc --outDir ./build",
+        "prepare": "husky install",
+        "setupHusky": "git add .husky/pre-commit"
     },
     "repository": {
         "type": "git",

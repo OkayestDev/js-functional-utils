@@ -22,7 +22,6 @@ __exportStar(require("./src/math"), exports);
 __exportStar(require("./src/number"), exports);
 __exportStar(require("./src/object"), exports);
 __exportStar(require("./src/pipe"), exports);
-__exportStar(require("./src/promise-pipe"), exports);
 __exportStar(require("./src/promised-timeout"), exports);
 __exportStar(require("./src/recursive-object-walk"), exports);
 __exportStar(require("./src/return-it"), exports);

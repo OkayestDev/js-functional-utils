@@ -16,4 +16,14 @@ describe('pipe', () => {
         const result = pipe(addS, addX)('');
         expect(result).toBe('sx');
     });
+
+    test('pipes async functions together', async () => {
+        const asyncAdd =
+            (x) =>
+            async (y): Promise<number> =>
+                x + y;
+
+        const result = await pipe(asyncAdd(2), asyncAdd(3), asyncAdd(4))(5);
+        expect(result).toBe(14);
+    });
 });
