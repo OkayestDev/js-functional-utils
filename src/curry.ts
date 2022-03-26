@@ -1,12 +1,17 @@
 import { areValuesAllNot } from './object';
 import { parseFunctionsObjectParams } from './string';
+import { TAnyFunction } from './types/any-function.type';
 
 export const curry =
-    <T>(fn: (...args: any) => T) =>
-    (...args: any[]): Function | T =>
-        args.length >= fn.length ? fn(...args) : (...more: any[]) => curry(fn)(...args, ...more);
+    (fn: TAnyFunction) =>
+    (...args) => {
+        if (args.length >= fn.length) {
+            return fn(...args);
+        }
+        return (...more) => curry(fn)(...args, ...more);
+    };
 
-export const curryObj = (fn: Function) => (args: object) => {
+export const curryObj = (fn: TAnyFunction) => (args: object) => {
     const baseObj = parseFunctionsObjectParams(fn);
     return areValuesAllNot({ ...baseObj, ...args })
         ? fn(args)

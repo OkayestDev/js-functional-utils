@@ -25,7 +25,10 @@ var curry = function (fn) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        return args.length >= fn.length ? fn.apply(void 0, args) : function () {
+        if (args.length >= fn.length) {
+            return fn.apply(void 0, args);
+        }
+        return function () {
             var more = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 more[_i] = arguments[_i];
