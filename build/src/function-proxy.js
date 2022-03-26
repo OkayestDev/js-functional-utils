@@ -20,25 +20,25 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.functionProxy = exports.setGlobalConfig = exports.RESPONSE = exports.PARAMS = void 0;
+exports.functionProxy = exports.setFunctionProxyGlobalConfig = exports.RESPONSE = exports.PARAMS = void 0;
 var curry_1 = require("./curry");
 exports.PARAMS = 'PARAMS';
 exports.RESPONSE = 'RESPONSE';
-var GLOBAL_CONFIG = {
+var FUNCTION_PROXY_GLOBAL_CONFIG = {
     logger: console.log,
     isLog: false,
     isCurry: false,
 };
-var setGlobalConfig = function (config) {
-    Object.assign(GLOBAL_CONFIG, config);
+var setFunctionProxyGlobalConfig = function (config) {
+    Object.assign(FUNCTION_PROXY_GLOBAL_CONFIG, config);
 };
-exports.setGlobalConfig = setGlobalConfig;
+exports.setFunctionProxyGlobalConfig = setFunctionProxyGlobalConfig;
 var isLog = function (config) { return Boolean(config === null || config === void 0 ? void 0 : config.isLog); };
-var handleLog = function (config) { return function (prefix, logItem) {
+var handleLog = function (config) { return function (functionName, prefix, logItem) {
     if (isLog(config)) {
         Promise.resolve(logItem).then(function (resolvedLogItem) {
             var _a;
-            (_a = config === null || config === void 0 ? void 0 : config.logger) === null || _a === void 0 ? void 0 : _a.call(config, prefix, resolvedLogItem);
+            (_a = config === null || config === void 0 ? void 0 : config.logger) === null || _a === void 0 ? void 0 : _a.call(config, functionName, prefix, resolvedLogItem);
         });
     }
 }; };
@@ -48,36 +48,33 @@ var applyConfigModifications = function (fn, config) {
     }
     return fn;
 };
-var funcProxyHandler = function (config, additionalLogParams) {
+var mergeGlobalAndPassedConfig = function (passedConfig) { return (__assign(__assign({}, FUNCTION_PROXY_GLOBAL_CONFIG), passedConfig)); };
+var handleFunctionProxy = function (modifiedFn, originalFunctionName, config, additionalLogParams) {
     if (additionalLogParams === void 0) { additionalLogParams = []; }
-    return ({
+    var funcProxyHandler = {
         apply: function (targetFn, _, args) {
             var logger = handleLog(config);
             var handler = function (response) {
                 if (typeof response === 'function') {
-                    return handleFunctionProxy(response, config, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
+                    return handleFunctionProxy(response, originalFunctionName, config, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
                 }
                 if (response instanceof Promise) {
                     return Promise.resolve(response).then(handler);
                 }
-                logger(exports.PARAMS, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
-                logger(exports.RESPONSE, response);
+                logger(originalFunctionName, exports.PARAMS, __spreadArray(__spreadArray([], additionalLogParams, true), args, true));
+                logger(originalFunctionName, exports.RESPONSE, response);
                 return response;
             };
             var response = targetFn.apply(void 0, args);
             return handler(response);
         },
-    });
-};
-var mergeGlobalAndPassedConfig = function (passedConfig) { return (__assign(__assign({}, GLOBAL_CONFIG), passedConfig)); };
-var handleFunctionProxy = function (modifiedFn, config, additionalLogParams) {
-    if (additionalLogParams === void 0) { additionalLogParams = []; }
-    return new Proxy(modifiedFn, funcProxyHandler(config, additionalLogParams));
+    };
+    return new Proxy(modifiedFn, funcProxyHandler);
 };
 var functionProxy = function (fn, config) {
     var allConfig = mergeGlobalAndPassedConfig(config);
     var modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(modifiedFn, allConfig);
+    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
 };
 exports.functionProxy = functionProxy;
 exports.default = exports.functionProxy;

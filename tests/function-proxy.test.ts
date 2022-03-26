@@ -1,4 +1,4 @@
-import func, { setGlobalConfig, PARAMS, RESPONSE } from '../src/function-proxy';
+import func, { setFunctionProxyGlobalConfig, PARAMS, RESPONSE } from '../src/function-proxy';
 
 describe('fnPrxy', () => {
     describe('logging capability', () => {
@@ -17,7 +17,7 @@ describe('fnPrxy', () => {
             });
 
             it('logs params and response if log is set to true', async () => {
-                setGlobalConfig({
+                setFunctionProxyGlobalConfig({
                     isLog: true,
                 });
                 const mockLogger = jest.fn();
@@ -33,13 +33,13 @@ describe('fnPrxy', () => {
                 expect(result).toBe(3);
                 expect(mockLogger).toHaveBeenCalledTimes(2);
                 expect(mockLogger.mock.calls).toEqual([
-                    [PARAMS, [1, 2]],
-                    [RESPONSE, 3],
+                    ['', PARAMS, [1, 2]],
+                    ['', RESPONSE, 3],
                 ]);
             });
 
             it("doesn't log if isLog is set to false", () => {
-                setGlobalConfig({
+                setFunctionProxyGlobalConfig({
                     isLog: false,
                 });
                 const mockLogger = jest.fn();
@@ -57,7 +57,7 @@ describe('fnPrxy', () => {
             });
 
             it('works with partially applied functions', () => {
-                setGlobalConfig({
+                setFunctionProxyGlobalConfig({
                     isLog: true,
                 });
                 const mockLogger = jest.fn();
@@ -71,13 +71,13 @@ describe('fnPrxy', () => {
                 expect(result).toBe(7);
                 expect(mockLogger).toHaveBeenCalledTimes(2);
                 expect(mockLogger.mock.calls).toEqual([
-                    [PARAMS, [3, 4]],
-                    [RESPONSE, 7],
+                    ['add', PARAMS, [3, 4]],
+                    ['add', RESPONSE, 7],
                 ]);
             });
 
             it('works with curried function', () => {
-                setGlobalConfig({
+                setFunctionProxyGlobalConfig({
                     isLog: true,
                 });
                 const mockLogger = jest.fn();
@@ -91,14 +91,14 @@ describe('fnPrxy', () => {
                 expect(addResult).toBe(20);
                 expect(mockLogger).toHaveBeenCalledTimes(2);
                 expect(mockLogger.mock.calls).toEqual([
-                    [PARAMS, [9, 11]],
-                    [RESPONSE, 20],
+                    ['add', PARAMS, [9, 11]],
+                    ['add', RESPONSE, 20],
                 ]);
             });
         });
 
         it('works with async functions', async () => {
-            setGlobalConfig({
+            setFunctionProxyGlobalConfig({
                 isLog: true,
             });
             const mockLogger = jest.fn();
@@ -108,13 +108,13 @@ describe('fnPrxy', () => {
             const response = await add(1, 2);
             expect(response).toBe(3);
             expect(mockLogger.mock.calls).toEqual([
-                [PARAMS, [1, 2]],
-                [RESPONSE, 3],
+                ['', PARAMS, [1, 2]],
+                ['', RESPONSE, 3],
             ]);
         });
 
         it('works with partial async function', async () => {
-            setGlobalConfig({
+            setFunctionProxyGlobalConfig({
                 isLog: true,
             });
             const mockLogger = jest.fn();
@@ -125,8 +125,8 @@ describe('fnPrxy', () => {
             const sum = await partial(15);
             expect(sum).toBe(25);
             expect(mockLogger.mock.calls).toEqual([
-                [PARAMS, [10, 15]],
-                [RESPONSE, 25],
+                ['add', PARAMS, [10, 15]],
+                ['add', RESPONSE, 25],
             ]);
         });
     });

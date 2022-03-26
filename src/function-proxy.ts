@@ -10,22 +10,22 @@ interface IFuncConfig {
     isCurry?: boolean;
 }
 
-const GLOBAL_CONFIG: IFuncConfig = {
+const FUNCTION_PROXY_GLOBAL_CONFIG: IFuncConfig = {
     logger: console.log,
     isLog: false,
     isCurry: false,
 };
 
-export const setGlobalConfig = (config: Partial<IFuncConfig>) => {
-    Object.assign(GLOBAL_CONFIG, config);
+export const setFunctionProxyGlobalConfig = (config: Partial<IFuncConfig>) => {
+    Object.assign(FUNCTION_PROXY_GLOBAL_CONFIG, config);
 };
 
 const isLog = (config?: IFuncConfig) => Boolean(config?.isLog);
 
-const handleLog = (config?: IFuncConfig) => (prefix: string, logItem: any) => {
+const handleLog = (config?: IFuncConfig) => (functionName, prefix: string, logItem: any) => {
     if (isLog(config)) {
         Promise.resolve(logItem).then((resolvedLogItem) => {
-            config?.logger?.(prefix, resolvedLogItem);
+            config?.logger?.(functionName, prefix, resolvedLogItem);
         });
     }
 };
@@ -37,46 +37,48 @@ const applyConfigModifications = <T extends TAnyFunction>(fn: T, config?: IFuncC
     return fn;
 };
 
-const funcProxyHandler = (config?: IFuncConfig, additionalLogParams: any[] = []) => ({
-    apply<T extends Function>(targetFn: T, _, args: any[]) {
-        const logger = handleLog(config);
-
-        const handler = (response) => {
-            if (typeof response === 'function') {
-                return handleFunctionProxy(response, config, [...additionalLogParams, ...args]);
-            }
-
-            if (response instanceof Promise) {
-                return Promise.resolve(response).then(handler);
-            }
-
-            logger(PARAMS, [...additionalLogParams, ...args]);
-            logger(RESPONSE, response);
-            return response;
-        };
-
-        const response = targetFn(...args);
-        return handler(response);
-    },
-});
-
 const mergeGlobalAndPassedConfig = (passedConfig?: IFuncConfig) => ({
-    ...GLOBAL_CONFIG,
+    ...FUNCTION_PROXY_GLOBAL_CONFIG,
     ...passedConfig,
 });
 
 const handleFunctionProxy = <T extends TAnyFunction>(
     modifiedFn: T,
+    originalFunctionName: string,
     config?: IFuncConfig,
     additionalLogParams: any[] = []
 ) => {
-    return new Proxy<T>(modifiedFn, funcProxyHandler(config, additionalLogParams));
+    const funcProxyHandler = {
+        apply<T extends Function>(targetFn: T, _, args: any[]) {
+            const logger = handleLog(config);
+            const handler = (response) => {
+                if (typeof response === 'function') {
+                    return handleFunctionProxy(response, originalFunctionName, config, [
+                        ...additionalLogParams,
+                        ...args,
+                    ]);
+                }
+
+                if (response instanceof Promise) {
+                    return Promise.resolve(response).then(handler);
+                }
+
+                logger(originalFunctionName, PARAMS, [...additionalLogParams, ...args]);
+                logger(originalFunctionName, RESPONSE, response);
+                return response;
+            };
+            const response = targetFn(...args);
+            return handler(response);
+        },
+    };
+
+    return new Proxy<T>(modifiedFn, funcProxyHandler);
 };
 
 export const functionProxy = <T extends TAnyFunction>(fn: T, config?: IFuncConfig) => {
     const allConfig = mergeGlobalAndPassedConfig(config);
     const modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(modifiedFn, allConfig);
+    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
 };
 
 export default functionProxy;
