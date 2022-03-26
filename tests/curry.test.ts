@@ -2,8 +2,11 @@ import { curry, curryObj } from '../src/curry';
 
 describe('curry', () => {
     test('curries function', () => {
-        const add = curry((x, y) => x + y);
-        expect(add(1)(2)).toBe(3);
+        const add = curry((x: number, y: number): number => x + y);
+        const partial = add(1);
+        expect(typeof partial).toBe('function');
+        const result = partial(2);
+        expect(result).toBe(3);
     });
 
     describe('curryObj', () => {
