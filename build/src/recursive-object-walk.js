@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.recursiveObjectWalk = void 0;
 var types_1 = require("./types");
-var getInitValue = function (obj) { return (types_1.isArray(obj) ? [] : {}); };
+var getInitValue = function (obj) { return (Array.isArray(obj) ? [] : {}); };
 var recursiveObjectWalk = function (onCheck, onFind, obj) {
     var getValue = function (value) {
         if (types_1.isIterable(value)) {
@@ -27,7 +27,7 @@ var recursiveObjectWalk = function (onCheck, onFind, obj) {
     return Object.entries(obj).reduce(function (acc, _a) {
         var _b;
         var key = _a[0], value = _a[1];
-        if (types_1.isArray(acc)) {
+        if (Array.isArray(acc)) {
             acc[key] = getValue(value);
             return acc;
         }

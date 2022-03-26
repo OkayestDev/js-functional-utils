@@ -1,5 +1,6 @@
 import { exec, ExecException } from 'child_process';
-import { v4 } from 'uuid';
+
+const GetCommandId = () => Math.floor(Math.random() * Date.now());
 
 const log =
     (isLog) =>
@@ -12,7 +13,7 @@ export const asyncExec = async (
     isLog = true
 ): Promise<string | ExecException> => {
     const logger = log(isLog);
-    const commandId = v4();
+    const commandId = GetCommandId();
     logger(commandId, 'async-exec request', command);
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout) => {

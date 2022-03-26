@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.asyncExec = void 0;
 var child_process_1 = require("child_process");
-var uuid_1 = require("uuid");
+var GetCommandId = function () { return Math.floor(Math.random() * Date.now()); };
 var log = function (isLog) {
     return function () {
         var args = [];
@@ -55,7 +55,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
         var logger, commandId;
         return __generator(this, function (_a) {
             logger = log(isLog);
-            commandId = uuid_1.v4();
+            commandId = GetCommandId();
             logger(commandId, 'async-exec request', command);
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     child_process_1.exec(command, function (error, stdout) {

@@ -1,8 +1,8 @@
-import { isIterable, isArray, isObject } from './types';
+import { isIterable } from './types';
 
 type onCheckType = (arg: any) => boolean;
 
-const getInitValue = (obj: any) => (isArray(obj) ? [] : {});
+const getInitValue = (obj: any) => (Array.isArray(obj) ? [] : {});
 
 export const recursiveObjectWalk = (onCheck: onCheckType, onFind: Function, obj: object) => {
     const getValue = (value: any): any => {
@@ -18,7 +18,7 @@ export const recursiveObjectWalk = (onCheck: onCheckType, onFind: Function, obj:
     }
 
     return Object.entries(obj).reduce((acc, [key, value]) => {
-        if (isArray(acc)) {
+        if (Array.isArray(acc)) {
             acc[key] = getValue(value);
             return acc;
         }

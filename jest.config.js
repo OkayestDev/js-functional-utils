@@ -1,3 +1,5 @@
 module.exports = {
-    preset: 'ts-jest'
-}
+    preset: 'ts-jest',
+    collectCoverage: true,
+    coverageReporters: ['json', 'html'],
+};

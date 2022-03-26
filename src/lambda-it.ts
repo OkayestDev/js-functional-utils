@@ -1,3 +1,3 @@
-import { isArray } from './types';
+import { curry } from './curry';
 
-export const lambdaIt = (args, fn) => (isArray(args) ? () => fn(...args) : () => fn(args));
+export const lambdaIt = curry((fn, ...args) => () => fn(...args));
