@@ -73,8 +73,8 @@ var handleFunctionProxy = function (modifiedFn, originalFunctionName, config, ad
 };
 var functionProxy = function (fn, config) {
     var allConfig = mergeGlobalAndPassedConfig(config);
-    var modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
+    // const modifiedFn = applyConfigModifications(fn, allConfig);
+    return handleFunctionProxy(fn, fn.name, allConfig);
 };
 exports.functionProxy = functionProxy;
 exports.default = exports.functionProxy;

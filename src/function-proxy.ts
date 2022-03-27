@@ -78,15 +78,15 @@ const handleFunctionProxy = <T extends AnyFunction>(
     return new Proxy<T>(modifiedFn, funcProxyHandler);
 };
 
-type FunctionProxyReturnType<T extends AnyFunction> = (...args: any[]) => ReturnType<T> | Curry;
+type FunctionProxyReturnType<T extends AnyFunction> = (...args: any[]) => ReturnType<T>;
 
 export const functionProxy = <T extends AnyFunction>(
     fn: T,
     config?: IFuncConfig
 ): FunctionProxyReturnType<T> => {
     const allConfig = mergeGlobalAndPassedConfig(config);
-    const modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
+    // const modifiedFn = applyConfigModifications(fn, allConfig);
+    return handleFunctionProxy(fn, fn.name, allConfig);
 };
 
 export default functionProxy;
