@@ -130,4 +130,18 @@ describe('fnPrxy', () => {
             ]);
         });
     });
+
+    // describe('curry capabilities', () => {
+    //     it('curries sync function', () => {
+    //         setFunctionProxyGlobalConfig({
+    //             isCurry: true,
+    //         });
+    //         const add = (x: number, y: number): number => x + y;
+    //         const proxy = func(add);
+    //         const step = proxy(1);
+    //         expect(typeof step).toBe('function');
+    //         const final = step(2);
+    //         expect(final).toBe(3);
+    //     });
+    // });
 });

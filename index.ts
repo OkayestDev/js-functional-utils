@@ -19,5 +19,6 @@ export * from './src/types';
 export * from './src/grab';
 export * from './src/invoke-fns';
 export * from './src/function-proxy';
+export * from './src/curry-obj';
 
-export * from './src/types/any-function.type';
+export * from './src/types/utility-types.type';

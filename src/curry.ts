@@ -1,19 +1,10 @@
-import { areValuesAllNot } from './object';
-import { parseFunctionsObjectParams } from './string';
-import { TAnyFunction } from './types/any-function.type';
+import { Curry, SubParams } from './types/utility-types.type';
 
-export const curry =
-    (fn: TAnyFunction) =>
+export const curry: Curry =
+    (fn) =>
     (...args) => {
         if (args.length >= fn.length) {
             return fn(...args);
         }
-        return (...more) => curry(fn)(...args, ...more);
+        return (...more) => curry(fn)(...([...args, ...more] as unknown as SubParams<typeof fn>));
     };
-
-export const curryObj = (fn: TAnyFunction) => (args: object) => {
-    const baseObj = parseFunctionsObjectParams(fn);
-    return areValuesAllNot({ ...baseObj, ...args })
-        ? fn(args)
-        : (more) => curryObj(fn)({ ...args, ...more });
-};

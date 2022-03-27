@@ -1,5 +1,5 @@
 import { curry } from './curry';
-import { TAnyFunction } from './types/any-function.type';
+import { AnyFunction, Curry } from './types/utility-types.type';
 
 export const PARAMS = 'PARAMS';
 export const RESPONSE = 'RESPONSE';
@@ -30,9 +30,12 @@ const handleLog = (config?: IFuncConfig) => (functionName, prefix: string, logIt
     }
 };
 
-const applyConfigModifications = <T extends TAnyFunction>(fn: T, config?: IFuncConfig): T => {
+const applyConfigModifications = <F extends AnyFunction>(
+    fn: F,
+    config?: IFuncConfig
+): F | Curry => {
     if (config?.isCurry) {
-        return curry(fn) as T;
+        return curry(fn) as Curry;
     }
     return fn;
 };
@@ -42,14 +45,14 @@ const mergeGlobalAndPassedConfig = (passedConfig?: IFuncConfig) => ({
     ...passedConfig,
 });
 
-const handleFunctionProxy = <T extends TAnyFunction>(
+const handleFunctionProxy = <T extends AnyFunction>(
     modifiedFn: T,
     originalFunctionName: string,
     config?: IFuncConfig,
     additionalLogParams: any[] = []
 ) => {
     const funcProxyHandler = {
-        apply<T extends Function>(targetFn: T, _, args: any[]) {
+        apply<T extends AnyFunction>(targetFn: T, _, args: any[]) {
             const logger = handleLog(config);
             const handler = (response) => {
                 if (typeof response === 'function') {
@@ -75,7 +78,12 @@ const handleFunctionProxy = <T extends TAnyFunction>(
     return new Proxy<T>(modifiedFn, funcProxyHandler);
 };
 
-export const functionProxy = <T extends TAnyFunction>(fn: T, config?: IFuncConfig) => {
+type FunctionProxyReturnType<T extends AnyFunction> = (...args: any[]) => ReturnType<T> | Curry;
+
+export const functionProxy = <T extends AnyFunction>(
+    fn: T,
+    config?: IFuncConfig
+): FunctionProxyReturnType<T> => {
     const allConfig = mergeGlobalAndPassedConfig(config);
     const modifiedFn = applyConfigModifications(fn, allConfig);
     return handleFunctionProxy(modifiedFn, fn.name, allConfig);

@@ -1,25 +1,22 @@
-import { curry, curryObj } from '../src/curry';
+import { curry } from '../src/curry';
 
 describe('curry', () => {
     test('curries function', () => {
-        const add = curry((x: number, y: number): number => x + y);
-        const partial = add(1);
+        const add = (x: number, y: number, z: number): number => x + y + z;
+        const curriedAdd = curry(add);
+        const partial = curriedAdd(1);
+        const result = partial(3, 5);
         expect(typeof partial).toBe('function');
-        const result = partial(2);
-        expect(result).toBe(3);
+        expect(result).toBe(9);
     });
 
-    describe('curryObj', () => {
-        test('curries obj params', () => {
-            const add = ({ x, y, z, w, aa, bb, longObjectKeyName }) =>
-                x + y + z + w + aa + bb + longObjectKeyName;
-            const curriedAdd = curryObj(add);
-            const curriedAdd2 = curriedAdd({ x: 1 });
-            expect(typeof curriedAdd2).toBe('function');
-            const curriedAdd3 = curriedAdd2({ y: 2, z: 5 });
-            expect(typeof curriedAdd3).toBe('function');
-            const finalResult = curriedAdd3({ w: 10, aa: 1, bb: 1, longObjectKeyName: 1 });
-            expect(finalResult).toBe(21);
-        });
+    test('curries function with differing params', () => {
+        const addNumberAndString = (x: number, y: string) => {
+            return x + y;
+        };
+        const curried = curry(addNumberAndString);
+        const firstStep = curried(3);
+        const secondStep = firstStep('4');
+        expect(secondStep).toBe('34');
     });
 });
