@@ -78,7 +78,7 @@ const handleFunctionProxy = <T extends AnyFunction>(
     return new Proxy<T>(modifiedFn, funcProxyHandler);
 };
 
-type FunctionProxyReturnType<T extends AnyFunction> = (...args: any[]) => ReturnType<T>;
+type FunctionProxyReturnType<T extends AnyFunction> = (...args: Parameters<T>) => ReturnType<T>;
 
 export const functionProxy = <T extends AnyFunction>(
     fn: T,
