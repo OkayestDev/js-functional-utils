@@ -1,22 +1,36 @@
-export type Expression<T> = (x: T) => any;
-
-interface IOption<T> {
-    run: <G>(expression: (x: T) => G) => IOption<G | undefined>;
-    get: () => T;
-}
-
 type FnType<X, G> = (value: X) => G;
+
+const returnAnOption = (value: any) => (value instanceof Option ? value : Option.from(value));
+
+const openOption = (value: any) => (value instanceof Option ? value.get() : value);
+
+// @ts-ignore
+Promise.prototype.run = function (fn) {
+    return this.then(async (result) => {
+        const opened = openOption(result);
+        const value = await fn(opened);
+        return returnAnOption(value);
+    });
+};
 
 export class Option<T extends any | undefined> {
     constructor(private value: T) {}
 
-    run<X extends T, G>(fn: FnType<X, G>): Option<G | undefined> {
+    run<X, G>(fn: FnType<X, G>): Option<G | undefined> {
         if (this.value === undefined) {
             return Option.from(undefined);
         }
 
-        const result = fn(this.value as X);
-        return Option.from(result);
+        if (this.value instanceof Promise) {
+            // @ts-ignore
+            return this.value.then((res) => {
+                return returnAnOption(res).run(fn);
+            });
+        }
+
+        const opened = openOption(this.value) as X;
+        const result = fn(opened);
+        return returnAnOption(result);
     }
 
     get(): T {
