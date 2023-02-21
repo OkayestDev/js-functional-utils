@@ -37,4 +37,5 @@ __exportStar(require("./src/invoke-fns"), exports);
 __exportStar(require("./src/function-proxy"), exports);
 __exportStar(require("./src/curry-obj"), exports);
 __exportStar(require("./src/option-monad"), exports);
+__exportStar(require("./src/result-monad"), exports);
 __exportStar(require("./src/types/utility-types.type"), exports);
