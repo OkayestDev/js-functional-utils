@@ -31,7 +31,7 @@ describe('result-monad', () => {
             const result = await asyncToResult(asyncAdd)(10, 12);
             expect(result.isOk()).toBe(true);
             expect(result.unwrap()).toBe(22);
-        });
+    });
 
         it('wraps rejected promise', async () => {
             const asyncIThrow = async () => {

@@ -1,6 +1,6 @@
 export const toResult = <A extends any[], T, G = any>(callback: (...args: A) => T) => {
     return (...args: A) => {
-        const result = Result<T, G>();
+        const result = new Result<T, G>();
         try {
             const callbackResult = callback(...args);
             return result.ok(callbackResult);
@@ -14,7 +14,7 @@ export const asyncToResult = <A extends any[], T, G = any>(
     callback: (...args: A) => Promise<T>
 ) => {
     return async (...args: A) => {
-        const result = Result<T, G>();
+        const result = new Result<T, G>();
         return callback(...args)
             .then((val) => result.ok(val))
             .catch((error) => result.err(error));
@@ -38,37 +38,40 @@ interface IResult<Ok, Err> {
     unwrap: () => Ok | Err;
 }
 
-export const Result = <Ok, Err>(): IResult<Ok, Err> => ({
-    okVal: undefined as undefined | Ok,
-    okayed: false,
+export class Result<Ok, Err> {
+    private okVal: undefined | Ok;
+    private okayed: boolean = false;
 
-    errVal: undefined as undefined | Err,
-    errored: false,
+    private errVal: undefined | Err;
+    private errored: boolean = false;
 
-    ok: function (val: Ok) {
+    public ok(val: Ok) {
         this.okayed = true;
         this.okVal = val;
         return this;
-    },
+    }
 
-    err: function (val: Err) {
+    public err(val: Err) {
         this.errored = true;
         this.errVal = val;
         return this;
-    },
+    }
 
-    isOk: function () {
+    public isOk() {
         return this.okayed;
-    },
+    }
 
-    isErr: function () {
+    public isErr() {
         return this.errored;
-    },
+    }
 
-    unwrap: function (): Err | Ok {
+    public unwrap(): Err | Ok {
         if (this.errored) {
             return this.errVal as Err;
         }
         return this.okVal as Ok;
-    },
-});
+    }
+}
+
+export const fromResult = <T, G>(val: Result<T, G> | T | G) =>
+    val instanceof Result ? val.unwrap() : val;

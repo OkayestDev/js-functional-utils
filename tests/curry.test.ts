@@ -1,8 +1,9 @@
 import { curry } from '../src/curry';
 
 describe('curry', () => {
+    const add = (x: number, y: number, z: number): number => x + y + z;
+
     test('curries function', () => {
-        const add = (x: number, y: number, z: number): number => x + y + z;
         const curriedAdd = curry(add);
         const partial = curriedAdd(1);
         const result = partial(3, 5);

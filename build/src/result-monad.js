@@ -36,14 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Result = exports.asyncToResult = exports.toResult = void 0;
+exports.fromResult = exports.Result = exports.asyncToResult = exports.toResult = void 0;
 var toResult = function (callback) {
     return function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        var result = (0, exports.Result)();
+        var result = new Result();
         try {
             var callbackResult = callback.apply(void 0, args);
             return result.ok(callbackResult);
@@ -63,7 +63,7 @@ var asyncToResult = function (callback) {
         return __awaiter(void 0, void 0, void 0, function () {
             var result;
             return __generator(this, function (_a) {
-                result = (0, exports.Result)();
+                result = new Result();
                 return [2 /*return*/, callback.apply(void 0, args).then(function (val) { return result.ok(val); })
                         .catch(function (error) { return result.err(error); })];
             });
@@ -71,32 +71,37 @@ var asyncToResult = function (callback) {
     };
 };
 exports.asyncToResult = asyncToResult;
-var Result = function () { return ({
-    okVal: undefined,
-    okayed: false,
-    errVal: undefined,
-    errored: false,
-    ok: function (val) {
+var Result = /** @class */ (function () {
+    function Result() {
+        this.okayed = false;
+        this.errored = false;
+    }
+    Result.prototype.ok = function (val) {
         this.okayed = true;
         this.okVal = val;
         return this;
-    },
-    err: function (val) {
+    };
+    Result.prototype.err = function (val) {
         this.errored = true;
         this.errVal = val;
         return this;
-    },
-    isOk: function () {
+    };
+    Result.prototype.isOk = function () {
         return this.okayed;
-    },
-    isErr: function () {
+    };
+    Result.prototype.isErr = function () {
         return this.errored;
-    },
-    unwrap: function () {
+    };
+    Result.prototype.unwrap = function () {
         if (this.errored) {
             return this.errVal;
         }
         return this.okVal;
-    },
-}); };
+    };
+    return Result;
+}());
 exports.Result = Result;
+var fromResult = function (val) {
+    return val instanceof Result ? val.unwrap() : val;
+};
+exports.fromResult = fromResult;

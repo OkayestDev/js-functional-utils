@@ -8,3 +8,5 @@ export const curry: Curry =
         }
         return (...more) => curry(fn)(...([...args, ...more] as unknown as SubParams<typeof fn>));
     };
+
+
