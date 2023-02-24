@@ -64,8 +64,14 @@ var asyncToResult = function (callback) {
             var result;
             return __generator(this, function (_a) {
                 result = new Result();
-                return [2 /*return*/, callback.apply(void 0, args).then(function (val) { return result.ok(val); })
-                        .catch(function (error) { return result.err(error); })];
+                try {
+                    return [2 /*return*/, callback.apply(void 0, args).then(function (val) { return result.ok(val); })
+                            .catch(function (error) { return result.err(error); })];
+                }
+                catch (error) {
+                    return [2 /*return*/, result.err(error)];
+                }
+                return [2 /*return*/];
             });
         });
     };

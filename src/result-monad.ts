@@ -15,9 +15,13 @@ export const asyncToResult = <A extends any[], T, G = any>(
 ) => {
     return async (...args: A) => {
         const result = new Result<T, G>();
-        return callback(...args)
-            .then((val) => result.ok(val))
-            .catch((error) => result.err(error));
+        try {
+            return callback(...args)
+                .then((val) => result.ok(val))
+                .catch((error) => result.err(error));
+        } catch (error) {
+            return result.err(error as G);
+        }
     };
 };
 

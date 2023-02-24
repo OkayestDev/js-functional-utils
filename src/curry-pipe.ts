@@ -1,6 +1,3 @@
-import { CurryPipe } from './types/curry-pipe.type';
-import { SubParams } from './types/utility-types.type';
-
 export const $ = Symbol('$');
 
 const updateArgs = (args: any[], more: any[]) => {
