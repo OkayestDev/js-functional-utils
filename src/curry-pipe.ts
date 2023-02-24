@@ -1,38 +1,27 @@
+import { CurryPipe } from './types/curry-pipe.type';
 import { SubParams } from './types/utility-types.type';
 
-interface ICurryPipeOptions {
-    curryArg?: string | number;
-}
+export const $ = Symbol('$');
 
-export const _ = '_';
-
-const updateArgs = (args: any[], more: any[], curryArg: ICurryPipeOptions['curryArg']) => {
+const updateArgs = (args: any[], more: any[]) => {
     const newArgs = [...args];
-    for (let i = 0; i < more.length; i++) {
-        const arg = more[i];
-        for (let j = 0; j < newArgs.length; j++) {
-            if (newArgs[j] === curryArg) {
-                newArgs[j] = arg;
-            }
+    for (let i = 0; i < newArgs.length; i++) {
+        if (newArgs[i] === $) {
+            newArgs[i] = more.shift();
         }
     }
     return newArgs;
 };
 
-const DEFAULT_OPTIONS = {
-    curryArg: _,
-};
-
 export const curryPipe =
-    (fn, options = DEFAULT_OPTIONS) =>
+    (fn) =>
     (...args) => {
-        const { curryArg } = options;
-        if (args.length >= fn.length && !args.includes(curryArg)) {
+        if (args.length >= fn.length && !args.includes($)) {
             return fn(...args);
         }
 
         return (...more) => {
-            const newArgs = updateArgs(args, more, curryArg);
-            return curryPipe(fn)(...([...newArgs] as unknown as SubParams<typeof fn>));
+            const newArgs = updateArgs(args, more);
+            return curryPipe(fn)(...newArgs);
         };
     };

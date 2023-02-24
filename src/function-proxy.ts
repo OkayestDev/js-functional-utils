@@ -1,4 +1,5 @@
 import { curry } from './curry';
+import { curryPipe } from './curry-pipe';
 import { AnyFunction, Curry } from './types/utility-types.type';
 
 export const PARAMS = 'PARAMS';
@@ -13,7 +14,7 @@ interface IFuncConfig {
 const FUNCTION_PROXY_GLOBAL_CONFIG: IFuncConfig = {
     logger: console.log,
     isLog: false,
-    isCurry: false,
+    isCurry: true,
 };
 
 export const setFunctionProxyGlobalConfig = (config: Partial<IFuncConfig>) => {
@@ -33,11 +34,8 @@ const handleLog = (config?: IFuncConfig) => (functionName, prefix: string, logIt
 const applyConfigModifications = <F extends AnyFunction>(
     fn: F,
     config?: IFuncConfig
-): F | Curry => {
-    if (config?.isCurry) {
-        return curry(fn) as Curry;
-    }
-    return fn;
+): ReturnType<any> => {
+    return curryPipe(fn);
 };
 
 const mergeGlobalAndPassedConfig = (passedConfig?: IFuncConfig) => ({
@@ -85,8 +83,8 @@ export const functionProxy = <T extends AnyFunction>(
     config?: IFuncConfig
 ): FunctionProxyReturnType<T> => {
     const allConfig = mergeGlobalAndPassedConfig(config);
-    // const modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(fn, fn.name, allConfig);
+    const modifiedFn = applyConfigModifications(fn, allConfig);
+    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
 };
 
 export default functionProxy;

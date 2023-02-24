@@ -9,32 +9,24 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.curryPipe = exports._ = void 0;
-exports._ = '_';
-var updateArgs = function (args, more, curryArg) {
+exports.curryPipe = exports.$ = void 0;
+exports.$ = Symbol('$');
+var updateArgs = function (args, more) {
     var newArgs = __spreadArray([], args, true);
-    for (var i = 0; i < more.length; i++) {
-        var arg = more[i];
-        for (var j = 0; j < newArgs.length; j++) {
-            if (newArgs[j] === curryArg) {
-                newArgs[j] = arg;
-            }
+    for (var i = 0; i < newArgs.length; i++) {
+        if (newArgs[i] === exports.$) {
+            newArgs[i] = more.shift();
         }
     }
     return newArgs;
 };
-var DEFAULT_OPTIONS = {
-    curryArg: exports._,
-};
-var curryPipe = function (fn, options) {
-    if (options === void 0) { options = DEFAULT_OPTIONS; }
+var curryPipe = function (fn) {
     return function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        var curryArg = options.curryArg;
-        if (args.length >= fn.length && !args.includes(curryArg)) {
+        if (args.length >= fn.length && !args.includes(exports.$)) {
             return fn.apply(void 0, args);
         }
         return function () {
@@ -42,8 +34,8 @@ var curryPipe = function (fn, options) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 more[_i] = arguments[_i];
             }
-            var newArgs = updateArgs(args, more, curryArg);
-            return (0, exports.curryPipe)(fn).apply(void 0, __spreadArray([], newArgs, true));
+            var newArgs = updateArgs(args, more);
+            return (0, exports.curryPipe)(fn).apply(void 0, newArgs);
         };
     };
 };

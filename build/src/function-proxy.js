@@ -21,13 +21,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.functionProxy = exports.setFunctionProxyGlobalConfig = exports.RESPONSE = exports.PARAMS = void 0;
-var curry_1 = require("./curry");
+var curry_pipe_1 = require("./curry-pipe");
 exports.PARAMS = 'PARAMS';
 exports.RESPONSE = 'RESPONSE';
 var FUNCTION_PROXY_GLOBAL_CONFIG = {
     logger: console.log,
     isLog: false,
-    isCurry: false,
+    isCurry: true,
 };
 var setFunctionProxyGlobalConfig = function (config) {
     Object.assign(FUNCTION_PROXY_GLOBAL_CONFIG, config);
@@ -43,10 +43,7 @@ var handleLog = function (config) { return function (functionName, prefix, logIt
     }
 }; };
 var applyConfigModifications = function (fn, config) {
-    if (config === null || config === void 0 ? void 0 : config.isCurry) {
-        return (0, curry_1.curry)(fn);
-    }
-    return fn;
+    return (0, curry_pipe_1.curryPipe)(fn);
 };
 var mergeGlobalAndPassedConfig = function (passedConfig) { return (__assign(__assign({}, FUNCTION_PROXY_GLOBAL_CONFIG), passedConfig)); };
 var handleFunctionProxy = function (modifiedFn, originalFunctionName, config, additionalLogParams) {
@@ -73,8 +70,8 @@ var handleFunctionProxy = function (modifiedFn, originalFunctionName, config, ad
 };
 var functionProxy = function (fn, config) {
     var allConfig = mergeGlobalAndPassedConfig(config);
-    // const modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(fn, fn.name, allConfig);
+    var modifiedFn = applyConfigModifications(fn, allConfig);
+    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
 };
 exports.functionProxy = functionProxy;
 exports.default = exports.functionProxy;
