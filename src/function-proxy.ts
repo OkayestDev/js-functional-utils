@@ -31,13 +31,6 @@ const handleLog = (config?: IFuncConfig) => (functionName, prefix: string, logIt
     }
 };
 
-const applyConfigModifications = <F extends AnyFunction>(
-    fn: F,
-    config?: IFuncConfig
-): ReturnType<any> => {
-    return curryPipe(fn);
-};
-
 const mergeGlobalAndPassedConfig = (passedConfig?: IFuncConfig) => ({
     ...FUNCTION_PROXY_GLOBAL_CONFIG,
     ...passedConfig,
@@ -83,8 +76,7 @@ export const functionProxy = <T extends AnyFunction>(
     config?: IFuncConfig
 ): FunctionProxyReturnType<T> => {
     const allConfig = mergeGlobalAndPassedConfig(config);
-    const modifiedFn = applyConfigModifications(fn, allConfig);
-    return handleFunctionProxy(modifiedFn, fn.name, allConfig);
+    return handleFunctionProxy(fn, fn.name, allConfig);
 };
 
 export default functionProxy;

@@ -1,36 +1,34 @@
-import { asyncToResult, Result, toResult } from '../src/result-monad';
+import { Result, toResult } from '../src/result-monad';
 import { curryPipe, $ } from '../src/curry-pipe';
 import { pipe } from '../src/pipe';
 
 describe('result-monad', () => {
     describe('toResult', () => {
-        it('wraps function to result', () => {
+        it('wraps function to result', async () => {
             const add = (x: number, y: number) => x + y;
 
             const toResultFn = toResult(add);
-            const result = toResultFn(5, 10);
+            const result = await toResultFn(5, 10);
 
             expect(result.isOk()).toBe(true);
             expect(result.unwrap()).toBe(15);
         });
 
-        it('wraps function that throws', () => {
+        it('wraps function that throws', async () => {
             const iThrow = () => {
                 throw new Error('testing');
             };
 
             const toResultFn = toResult(iThrow);
-            const result = toResultFn();
+            const result = await toResultFn();
 
             expect(result.isErr()).toBe(true);
             expect(result.unwrap()).toStrictEqual(new Error('testing'));
         });
-    });
 
-    describe('asyncToResult', () => {
         it('wraps promise', async () => {
             const asyncAdd = async (x: number, y: number) => x + y;
-            const result = await asyncToResult(asyncAdd)(10, 12);
+            const result = await toResult(asyncAdd)(10, 12);
             expect(result.isOk()).toBe(true);
             expect(result.unwrap()).toBe(22);
         });
@@ -39,7 +37,7 @@ describe('result-monad', () => {
             const asyncIThrow = async () => {
                 throw new Error('testing');
             };
-            const result = await asyncToResult(asyncIThrow)();
+            const result = await toResult(asyncIThrow)();
             expect(result.isErr()).toBe(true);
             expect(result.unwrap()).toStrictEqual(new Error('testing'));
         });

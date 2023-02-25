@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Result = exports.fromResult = exports.fromResults = exports.asyncToResult = exports.toResult = void 0;
+exports.Result = exports.fromResult = exports.fromResults = exports.toResult = void 0;
 var toResult = function (callback) {
     return function () {
         var args = [];
@@ -46,8 +46,13 @@ var toResult = function (callback) {
         var unwrapped = (0, exports.fromResults)(args);
         var result = new Result();
         try {
-            var callbackResult = callback.apply(void 0, unwrapped);
-            return result.ok(callbackResult);
+            var callbackResponse = callback.apply(void 0, unwrapped);
+            if (callbackResponse instanceof Promise) {
+                return callbackResponse
+                    .then(function (val) { return result.ok(val); })
+                    .catch(function (error) { return result.err(error); });
+            }
+            return result.ok(callbackResponse);
         }
         catch (error) {
             return result.err(error);
@@ -55,30 +60,6 @@ var toResult = function (callback) {
     };
 };
 exports.toResult = toResult;
-var asyncToResult = function (callback) {
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        return __awaiter(void 0, void 0, void 0, function () {
-            var unwrapped, result;
-            return __generator(this, function (_a) {
-                unwrapped = (0, exports.fromResults)(args);
-                result = new Result();
-                try {
-                    return [2 /*return*/, callback.apply(void 0, unwrapped).then(function (val) { return result.ok(val); })
-                            .catch(function (error) { return result.err(error); })];
-                }
-                catch (error) {
-                    return [2 /*return*/, result.err(error)];
-                }
-                return [2 /*return*/];
-            });
-        });
-    };
-};
-exports.asyncToResult = asyncToResult;
 var fromResults = function (vals) { return vals.map(exports.fromResult); };
 exports.fromResults = fromResults;
 var fromResult = function (val) {
@@ -115,3 +96,35 @@ var Result = /** @class */ (function () {
     return Result;
 }());
 exports.Result = Result;
+function asyncFunction(fn) {
+    var result = fn();
+    if (result instanceof Promise) {
+        return result;
+    }
+    return Promise.resolve(result);
+}
+function getUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, { name: 'John Doe', age: 30 }];
+        });
+    });
+}
+function notAsync() {
+    return { name: 'howdy' };
+}
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, test;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, asyncFunction(getUser)];
+                case 1:
+                    user = _a.sent();
+                    console.log(user.name); // John Doe
+                    test = asyncFunction(notAsync);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}

@@ -1,26 +1,23 @@
-export const toResult = <A extends any[], T, G extends Error>(callback: (...args: A) => T) => {
+export const toResult = <
+    A extends any[],
+    T,
+    G extends Error,
+>(
+    callback: (...args: A) => T
+) => {
     return (...args: A) => {
         const unwrapped = fromResults(args);
         const result = new Result<T, G>();
         try {
-            const callbackResult = callback(...(unwrapped as A));
-            return result.ok(callbackResult);
-        } catch (error) {
-            return result.err(error as G);
-        }
-    };
-};
+            const callbackResponse = callback(...(unwrapped as A));
 
-export const asyncToResult = <A extends any[], T, G extends Error>(
-    callback: (...args: A) => Promise<T>
-) => {
-    return async (...args: A) => {
-        const unwrapped = fromResults(args);
-        const result = new Result<T, G>();
-        try {
-            return callback(...(unwrapped as A))
-                .then((val) => result.ok(val))
-                .catch((error) => result.err(error));
+            if (callbackResponse instanceof Promise) {
+                return callbackResponse
+                    .then((val) => result.ok(val))
+                    .catch((error) => result.err(error));
+            }
+
+            return result.ok(callbackResponse);
         } catch (error) {
             return result.err(error as G);
         }
@@ -65,4 +62,27 @@ export class Result<Ok, Err> {
         }
         return this.okVal as Ok;
     }
+}
+
+function asyncFunction<T>(fn: () => T | Promise<T>): T extends Promise<any> ? T : Promise<T> {
+    const result = fn();
+    if (result instanceof Promise) {
+        return result as any;
+    }
+    return Promise.resolve(result) as any;
+}
+
+async function getUser(): Promise<{ name: string; age: number }> {
+    return { name: 'John Doe', age: 30 };
+}
+
+function notAsync(): { name: string } {
+    return { name: 'howdy' };
+}
+
+async function main() {
+    const user = await asyncFunction(getUser);
+    console.log(user.name); // John Doe
+
+    const test = asyncFunction(notAsync);
 }
