@@ -1,8 +1,9 @@
-export const toResult = <A extends any[], T, G = any>(callback: (...args: A) => T) => {
+export const toResult = <A extends any[], T, G extends Error>(callback: (...args: A) => T) => {
     return (...args: A) => {
+        const unwrapped = fromResults(args);
         const result = new Result<T, G>();
         try {
-            const callbackResult = callback(...args);
+            const callbackResult = callback(...(unwrapped as A));
             return result.ok(callbackResult);
         } catch (error) {
             return result.err(error as G);
@@ -10,13 +11,14 @@ export const toResult = <A extends any[], T, G = any>(callback: (...args: A) => 
     };
 };
 
-export const asyncToResult = <A extends any[], T, G = any>(
+export const asyncToResult = <A extends any[], T, G extends Error>(
     callback: (...args: A) => Promise<T>
 ) => {
     return async (...args: A) => {
+        const unwrapped = fromResults(args);
         const result = new Result<T, G>();
         try {
-            return callback(...args)
+            return callback(...(unwrapped as A))
                 .then((val) => result.ok(val))
                 .catch((error) => result.err(error));
         } catch (error) {
@@ -25,22 +27,10 @@ export const asyncToResult = <A extends any[], T, G = any>(
     };
 };
 
-interface IResult<Ok, Err> {
-    okVal: undefined | Ok;
-    errVal: undefined | Err;
+export const fromResults = <T, G>(vals: (Result<T, G> | T | G)[]) => vals.map(fromResult);
 
-    errored: boolean;
-    okayed: boolean;
-
-    ok: (val: Ok) => IResult<Ok, Err>;
-
-    err: (val: Err) => IResult<Ok, Err>;
-
-    isOk: () => boolean;
-    isErr: () => boolean;
-
-    unwrap: () => Ok | Err;
-}
+export const fromResult = <T, G>(val: Result<T, G> | T | G) =>
+    val instanceof Result ? val.unwrap() : val;
 
 export class Result<Ok, Err> {
     private okVal: undefined | Ok;
@@ -76,6 +66,3 @@ export class Result<Ok, Err> {
         return this.okVal as Ok;
     }
 }
-
-export const fromResult = <T, G>(val: Result<T, G> | T | G) =>
-    val instanceof Result ? val.unwrap() : val;

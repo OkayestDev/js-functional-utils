@@ -1,4 +1,6 @@
 import { asyncToResult, Result, toResult } from '../src/result-monad';
+import { curryPipe, $ } from '../src/curry-pipe';
+import { pipe } from '../src/pipe';
 
 describe('result-monad', () => {
     describe('toResult', () => {
@@ -31,7 +33,7 @@ describe('result-monad', () => {
             const result = await asyncToResult(asyncAdd)(10, 12);
             expect(result.isOk()).toBe(true);
             expect(result.unwrap()).toBe(22);
-    });
+        });
 
         it('wraps rejected promise', async () => {
             const asyncIThrow = async () => {
@@ -41,5 +43,12 @@ describe('result-monad', () => {
             expect(result.isErr()).toBe(true);
             expect(result.unwrap()).toStrictEqual(new Error('testing'));
         });
+    });
+
+    it('works with piping and currying', () => {
+        const add = curryPipe(toResult((x: number, y: number) => x + y));
+        const result = pipe(add($, $), add($, 10), add($, 8))(5, 5) as Result<number, Error>;
+        expect(result.isOk()).toBe(true);
+        expect(result.unwrap()).toStrictEqual(28);
     });
 });
