@@ -59,26 +59,3 @@ export class Result<Ok, Err> {
         return this.okVal as Ok;
     }
 }
-
-function asyncFunction<T>(fn: () => T | Promise<T>): T extends Promise<any> ? T : Promise<T> {
-    const result = fn();
-    if (result instanceof Promise) {
-        return result as any;
-    }
-    return Promise.resolve(result) as any;
-}
-
-async function getUser(): Promise<{ name: string; age: number }> {
-    return { name: 'John Doe', age: 30 };
-}
-
-function notAsync(): { name: string } {
-    return { name: 'howdy' };
-}
-
-async function main() {
-    const user = await asyncFunction(getUser);
-    console.log(user.name); // John Doe
-
-    const test = asyncFunction(notAsync);
-}
