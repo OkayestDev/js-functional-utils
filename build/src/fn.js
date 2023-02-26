@@ -25,11 +25,8 @@ var handleFnProxy = function (modifiedFn, fnName) {
     };
     return new Proxy(modifiedFn, proxy);
 };
-var applyWrappers = function (fn) {
-    return (0, curry_pipe_1.curryPipe)((0, result_monad_1.toResult)(fn));
-};
-var fn = function (fn) {
-    var modifiedFn = applyWrappers(fn);
-    return handleFnProxy(modifiedFn, fn.name);
+var fn = function (fnVar) {
+    var modifiedFn = (0, curry_pipe_1.curryPipe)((0, result_monad_1.toResult)(fnVar));
+    return handleFnProxy(modifiedFn, exports.fn.name);
 };
 exports.fn = fn;

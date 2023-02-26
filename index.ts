@@ -23,5 +23,6 @@ export * from './src/curry-obj';
 export * from './src/option-monad';
 export * from './src/result-monad';
 export * from './src/curry-pipe';
+export * from './src/fn';
 
 export * from './src/types/utility-types.type';

@@ -5,7 +5,8 @@ describe('curryPipe', () => {
     const add = (x: number, y: number, z: number): number => x + y + z;
 
     it('curries curryPipe', () => {
-        const partial = curryPipe(add)(4, $, 5);
+        const curried = curryPipe(add);
+        const partial = curried(4, $, 5);
         expect(typeof partial).toBe('function');
         const result = partial(10);
         expect(result).toBe(19);

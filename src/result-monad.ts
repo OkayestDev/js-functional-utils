@@ -1,15 +1,11 @@
-export const toResult = <
-    A extends any[],
-    T,
-    G extends Error,
->(
-    callback: (...args: A) => T
-) => {
-    return (...args: A) => {
+import { AnyFunction } from './types/utility-types.type';
+
+export const toResult = <T extends AnyFunction, G extends Error>(callback: T) => {
+    return (...args: Parameters<T>) => {
         const unwrapped = fromResults(args);
-        const result = new Result<T, G>();
+        const result = new Result<ReturnType<T>, G>();
         try {
-            const callbackResponse = callback(...(unwrapped as A));
+            const callbackResponse = callback(...(unwrapped as Parameters<T>));
 
             if (callbackResponse instanceof Promise) {
                 return callbackResponse

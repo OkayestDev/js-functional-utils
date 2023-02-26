@@ -1,4 +1,4 @@
-type FnsType<T> = [...((...params: any[]) => any)[], (...params: any[]) => T];
+type FnsType<T> = [...((...params: any[]) => any)[], ((...params: any[]) => T) | T];
 
 const stepHandler = (accumulator, fn) => {
     const response = fn(...accumulator);
@@ -8,8 +8,9 @@ const stepHandler = (accumulator, fn) => {
     return [response];
 };
 
+// @todo type. Giving errors for fn proxy
 export const pipe =
-    <T>(...fns: FnsType<T>) =>
+    <T>(...fns) =>
     (...args): T => {
         const pipeHandler =
             (index: number) =>

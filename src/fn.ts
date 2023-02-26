@@ -29,11 +29,7 @@ const handleFnProxy = (modifiedFn, fnName) => {
     return new Proxy<any>(modifiedFn, proxy);
 };
 
-const applyWrappers = <T extends AnyFunction>(fn: T) => {
-    return curryPipe(toResult(fn));
-};
-
-export const fn = <T extends AnyFunction>(fn: T) => {
-    const modifiedFn = applyWrappers(fn);
-    return handleFnProxy(modifiedFn, fn.name);
+export const fn = <G, T extends (...args: any[]) => G>(fnVar: T) => {
+    const modifiedFn = curryPipe(toResult(fnVar));
+    return handleFnProxy(modifiedFn, fn.name) as typeof modifiedFn;
 };

@@ -39,4 +39,5 @@ __exportStar(require("./src/curry-obj"), exports);
 __exportStar(require("./src/option-monad"), exports);
 __exportStar(require("./src/result-monad"), exports);
 __exportStar(require("./src/curry-pipe"), exports);
+__exportStar(require("./src/fn"), exports);
 __exportStar(require("./src/types/utility-types.type"), exports);

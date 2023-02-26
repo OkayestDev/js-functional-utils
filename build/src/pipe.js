@@ -8,6 +8,7 @@ var stepHandler = function (accumulator, fn) {
     }
     return [response];
 };
+// @todo type. Giving errors for fn proxy
 var pipe = function () {
     var fns = [];
     for (var _i = 0; _i < arguments.length; _i++) {

@@ -125,3 +125,22 @@ export type SubParams<F extends AnyFunction> = Partial<Parameters<F>> extends an
 export type Curry = <F extends AnyFunction>(
     fn: F
 ) => <Args extends SubParams<F>>(...args: Args) => InnerCurry<F, Args>;
+
+/**
+ * Filters array T by type U
+ */
+export type FilteredTypeArray<Arr extends any[], OmitTypes> = {
+    [K in keyof Arr]: Arr[K] extends OmitTypes ? never : Arr[K];
+}[number][];
+
+/**
+ * Creates a tuple of type T and length N
+ */
+export type Tuple<T, N extends number> = N extends N
+    ? number extends N
+        ? T[]
+        : _TupleOf<T, N, []>
+    : never;
+type _TupleOf<T, N extends number, R extends unknown[]> = R['length'] extends N
+    ? R
+    : _TupleOf<T, N, [T, ...R]>;
