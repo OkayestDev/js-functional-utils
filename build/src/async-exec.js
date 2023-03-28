@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54,9 +65,10 @@ var getTerminal = function () {
     }
     return {};
 };
-var asyncExec = function (command, isReplaceNewlines, isLog) {
+var asyncExec = function (command, isReplaceNewlines, isLog, additionalOptions) {
     if (isReplaceNewlines === void 0) { isReplaceNewlines = true; }
     if (isLog === void 0) { isLog = true; }
+    if (additionalOptions === void 0) { additionalOptions = {}; }
     return __awaiter(void 0, void 0, void 0, function () {
         var logger, commandId;
         return __generator(this, function (_a) {
@@ -64,7 +76,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
             commandId = GetCommandId();
             logger(commandId, 'async-exec request', command);
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    (0, child_process_1.exec)(command, getTerminal(), function (error, stdout) {
+                    (0, child_process_1.exec)(command, __assign(__assign({}, getTerminal()), additionalOptions), function (error, stdout) {
                         if (!error) {
                             var response = isReplaceNewlines
                                 ? stdout.replace(/\r/g, '').replace(/\n/g, '')

@@ -1,4 +1,4 @@
-import { exec, ExecException } from 'child_process';
+import { exec, ExecException, ExecOptions } from 'child_process';
 
 const GetCommandId = () => Math.floor(Math.random() * Date.now());
 
@@ -17,13 +17,14 @@ const getTerminal = () => {
 export const asyncExec = async (
     command: string,
     isReplaceNewlines = true,
-    isLog = true
+    isLog = true,
+    additionalOptions: ExecOptions = {}
 ): Promise<string | ExecException> => {
     const logger = log(isLog);
     const commandId = GetCommandId();
     logger(commandId, 'async-exec request', command);
     return new Promise((resolve, reject) => {
-        exec(command, getTerminal(), (error, stdout) => {
+        exec(command, { ...getTerminal(), ...additionalOptions }, (error, stdout) => {
             if (!error) {
                 const response = isReplaceNewlines
                     ? stdout.replace(/\r/g, '').replace(/\n/g, '')
