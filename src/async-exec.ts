@@ -7,6 +7,13 @@ const log =
     (...args) =>
         isLog && console.log(...args);
 
+const getTerminal = () => {
+    if (process.platform.includes('win')) {
+        return { shell: 'powershell.exe' };
+    }
+    return {};
+};
+
 export const asyncExec = async (
     command: string,
     isReplaceNewlines = true,
@@ -16,7 +23,7 @@ export const asyncExec = async (
     const commandId = GetCommandId();
     logger(commandId, 'async-exec request', command);
     return new Promise((resolve, reject) => {
-        exec(command, (error, stdout) => {
+        exec(command, getTerminal(), (error, stdout) => {
             if (!error) {
                 const response = isReplaceNewlines
                     ? stdout.replace(/\r/g, '').replace(/\n/g, '')

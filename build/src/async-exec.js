@@ -48,6 +48,12 @@ var log = function (isLog) {
         return isLog && console.log.apply(console, args);
     };
 };
+var getTerminal = function () {
+    if (process.platform.includes('win')) {
+        return { shell: 'powershell.exe' };
+    }
+    return {};
+};
 var asyncExec = function (command, isReplaceNewlines, isLog) {
     if (isReplaceNewlines === void 0) { isReplaceNewlines = true; }
     if (isLog === void 0) { isLog = true; }
@@ -58,7 +64,7 @@ var asyncExec = function (command, isReplaceNewlines, isLog) {
             commandId = GetCommandId();
             logger(commandId, 'async-exec request', command);
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    (0, child_process_1.exec)(command, function (error, stdout) {
+                    (0, child_process_1.exec)(command, getTerminal(), function (error, stdout) {
                         if (!error) {
                             var response = isReplaceNewlines
                                 ? stdout.replace(/\r/g, '').replace(/\n/g, '')
