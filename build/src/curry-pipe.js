@@ -12,13 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.curryPipe = exports.$ = void 0;
 exports.$ = Symbol('$');
 var updateArgs = function (args, more) {
-    var newArgs = __spreadArray([], args, true);
-    for (var i = 0; i < newArgs.length; i++) {
-        if (newArgs[i] === exports.$) {
-            newArgs[i] = more.shift();
+    for (var i = 0; i < args.length; i++) {
+        if (args[i] === exports.$) {
+            args[i] = more.shift();
         }
     }
-    return newArgs;
+    return __spreadArray(__spreadArray([], args, true), more, true);
 };
 var curryPipe = function (fn) {
     return function () {
