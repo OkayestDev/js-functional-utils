@@ -2,7 +2,7 @@ import { AnyFunction, FilteredTypeArray, Tuple } from './types/utility-types.typ
 
 export const $ = Symbol('$');
 
-type CurryPipe<FnReturnType, Args extends any[]> = <
+export type CurryPipe<FnReturnType, Args extends any[]> = <
     PassedArgs extends (Partial<Args>[number] | typeof $)[]
 >(
     ...args: PassedArgs
